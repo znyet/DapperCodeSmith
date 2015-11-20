@@ -1,0 +1,662 @@
+﻿<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Src="ToolsCodeTemplate.cs" Inherits="ToolsCodeTemplate" %>
+<%@ Property Name="Table" Type="SchemaExplorer.TableSchema" Category="DB" %>
+<%@ Property Name="NameSpace" Type="System.String" Default="MyWeb.DAL" Category="String" %>
+<%@ Property Name="NameSpaceModel" Type="System.String" Default="MyWeb.Model" Category="String" %>
+<%@ Property Name="SqlHelper" Type="System.String" Default="SqlHelper" Category="String" %>
+<%@ Property Name="SqlDapperHelper" Type="System.String" Default="SqlDapperHelper" Category="String" %>
+<script runat="template">
+    public override string GetFileName()
+    {
+    	return Table.Name + "DAL.cs";
+    }
+</script>
+<% 
+    string entity=Table.Name+"Entity";
+%>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using Utils;
+using blqw;
+using Dapper;
+using <%=NameSpaceModel %>;
+
+namespace <%=NameSpace %>
+{
+    <%PrintHeader("模板生成方法，对应"+Table.Name+"表基础增、删、改、查、等方法。"); %>
+    
+    /// <summary>
+    /// 表名:<%=Table.Name %>
+    /// 描述:<%=Table.Description %>
+    /// 主键和自增:<%if(!Table.HasPrimaryKey) {%>无主键<%} %> <%if(!HasIdentity(Table)) {%>无自增字段<%} %>
+    /// </summary>
+    public partial class <%=Table.Name %>DAL
+    {
+    
+        #region Insert操作
+        
+        /// <summary>
+        /// 添加一条数据
+        /// </summary>
+        /// <param name="entity">实体类</param>
+        /// <param name="insertIdentity">是否开启IDENTITY_INSERT，默认否</param>
+        /// <returns></returns>
+        public long Insert(<%=entity%> entity, bool insertIdentity = false)
+        {   
+            long result = 0;
+            <%if(HasIdentity(Table)) {%>
+            if(insertIdentity)
+            {
+                string sql = "SET IDENTITY_INSERT [<%=Table.Name%>] ON;INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table, true) %>) VALUES (<%=GetValues(Table, true) %>);SET IDENTITY_INSERT [<%=Table.Name%>] OFF";
+                result = <%=SqlDapperHelper%>.ExecuteNonQuery(sql, entity);
+            }
+            else
+            {
+                string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>);SELECT SCOPE_IDENTITY()";
+                result = <%=SqlDapperHelper%>.ExecuteScalar<long>(sql, entity);
+            }
+            <%} else{%>
+            string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>)";
+            result = <%=SqlDapperHelper%>.ExecuteNonQuery(sql, entity);
+            <%} %>
+            return result;
+        }
+        
+        /// <summary>
+        /// 以DataTable方式批量插入数据
+        /// </summary>
+        /// <param name="dt">要插入的DataTable</param>
+        /// <param name="column">要导入的列，请确保与数据库的列名相同，用逗号隔开，默认null导入所有列</param>
+        /// <param name="insertIdentity">是否开启自增键的插入，默认False，不开启</param>
+        public void InsertBulk(DataTable dt, string column = null, bool insertIdentity = false)
+        {
+            <%=SqlHelper%>.BulkCopy(dt, "<%=Table.Name%>", column, insertIdentity);
+        }
+
+        /// <summary>
+        /// 以List实体集方式批量插入数据
+        /// </summary>
+        /// <param name="list">要导入的实体集合</param>
+        /// <param name="column">要导入的列，请确保与数据库的列名相同，用逗号隔开，默认null导入所有列</param>
+        /// <param name="insertIdentity">是否开启自增键的插入，默认False，不开启</param>
+        public void InsertBulk(List<<%=entity%>> list, string column = null, bool insertIdentity = false)
+        {
+            DataTable dt = Convert2.ToDataTable(list);
+            <%=SqlHelper%>.BulkCopy(dt, "<%=Table.Name%>", column, insertIdentity);
+        }
+        
+        #endregion
+        
+        #region Update操作
+        
+        /// <summary>
+        /// 更新整个表，不对primaryKey，Identity字段进行更新
+        /// </summary>
+        /// <param name="entity">实体类参数</param>
+        /// <param name="updateFields">要更新的字段，字段用逗号隔开，为null时表示更新所有字段</param>
+        /// <returns>大于0表示修改成功</returns>
+        public int UpdateFields(<%=entity%> entity, string updateFields = null)
+        {
+            if (updateFields == null)
+            {
+                updateFields = "<%=GetValuesEquals_NoPI(Table)%>";
+            }
+            else
+            {
+                updateFields = StringHelper.SqlUpdateFields(updateFields);
+            }
+            string sql = "UPDATE [<%=Table.Name%>] SET " + updateFields;
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, entity);
+        }
+        
+        /// <summary>
+        /// 根据where条件更新数据，不对primaryKey，Identity字段进行更新
+        /// </summary>
+        /// <param name="entity">实体类参数</param>
+        /// <param name="whereFields">where字段条件，用逗号隔开，sql为AND条件</param>
+        /// <param name="updateFields">要更新的字段，字段用逗号隔开，为null时表示更新所有字段</param>
+        /// <returns>大于0表示修改成功</returns>
+        public int UpdateFieldsByWhere(string whereFields, <%=entity%> entity, string updateFields = null)
+        {
+            if (updateFields == null)
+            {
+                updateFields = "<%=GetValuesEquals_NoPI(Table)%>";
+            }
+            else
+            {
+                updateFields = StringHelper.SqlUpdateFields(updateFields);
+            }
+            string where = "WHERE " + StringHelper.SqlWhereFields(whereFields);
+            string sql = string.Format("UPDATE [<%=Table.Name%>] SET {0} " + where, updateFields);
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, entity);
+        }
+        
+        <%if(Table.HasPrimaryKey) {%>
+        /// <summary>
+        /// 批量更新操作，此方法只针对有主键的表生成，因为是根据主键批量更新
+        /// 此方法不仅用于更新，并且可以进行增加和删除操作，一般用于批量更新
+        /// </summary>
+        /// <param name="dt">要更新的DataTable数据，dt必须含有主键</param>
+        /// <param name="column">要跟新的列用逗号隔开，如"id,name"，默认为*表示更新所有列</param>
+        public void UpdateBulk(DataTable dt, string column = "*")
+        {
+            <%=SqlHelper%>.BulkUpdate(dt, "<%=Table.Name%>", column);
+        }
+        <%} %>
+        
+        #endregion
+        
+        #region Delete操作
+        
+        /// <summary>
+        /// 删除表中所有数据
+        /// </summary>
+        /// <returns>大于0表示删除成功</returns>
+        public int DeleteAll()
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>]";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql);
+        }
+        
+        /// <summary>
+        /// 根据where条件删除
+        /// </summary>
+        /// <param name="entity">实体集参数</param>
+        /// <param name="whereFields">where参数用逗号隔开，如"id,name"，sql语句为and</param>
+        /// <returns></returns>
+        public int DeleteByWhere(string whereFields, <%=entity%> entity)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE " + StringHelper.SqlWhereFields(whereFields);
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, entity);
+        }
+        
+        /// <summary>
+        /// 根据某个字段List批量删除数据
+        /// </summary>
+        /// <param name="inField"></param>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public int DeleteByIn(string inField, List<object> ids)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE [" + inField + "] IN @ids";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, new { ids = ids });
+        }
+
+        /// <summary>
+        /// 根据某个字段数组批量删除数据
+        /// </summary>
+        /// <param name="inField"></param>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public int DeleteByIn(string inField, object[] ids)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE [" + inField + "] IN @ids";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, new { ids = ids });
+        }
+
+        /// <summary>
+        /// 根据某个字段串批量删除数据
+        /// </summary>
+        /// <param name="inField"></param>
+        /// <param name="ids">用逗号隔开，如"1,2,3"</param>
+        /// <returns></returns>
+        public int DeleteByIn(string inField, string ids)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE [" + inField + "] IN @ids";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, new { ids = ids.Split(',') });
+        }
+        
+        <%if(Table.HasPrimaryKey) {%>
+        /// <summary>
+        /// 根据id删除一条数据
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public int DeleteById(<%=GetPKType(Table)%> <%=GetPKName(Table)%>)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE <%=GetPKName(Table)%> = @<%=GetPKName(Table)%>";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> });
+        }
+
+        /// <summary>
+        /// 根据List批量删除数据
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public int DeleteByIds(<%=GetPKType(Table)%>[] ids)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE <%=GetPKName(Table)%> IN @ids";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, new { ids = ids });
+        }
+        
+        /// <summary>
+        /// 根据id数组批量删除数据
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public int DeleteByIds(List<<%=GetPKType(Table)%>> ids)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE <%=GetPKName(Table)%> IN @ids";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, new { ids = ids });
+        }
+        
+        /// <summary>
+        /// 根据id串批量删除数据
+        /// </summary>
+        /// <param name="ids">用逗号隔开，如"1,2,3"</param>
+        /// <returns></returns>
+        public int DeleteByIds(string ids)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE <%=GetPKName(Table)%> IN @ids";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, new { ids = ids.Split(',') });
+        }
+        <%} %>
+        
+        #endregion
+        
+        #region Query操作
+        
+        /// <summary>
+        /// 查询所有数据
+        /// </summary>
+        /// <param name="returnFields">要返回的字段，用逗号隔开，如"id,name"，为*时返回所有字段</param>
+        /// <param name="top">返回前n条记录，默认-1返回所有</param>
+        /// <param name="orderBy">排序，如"id"或"id desc",或"id desc,name desc"，默认null不排序</param>
+        /// <returns>返回List实体集合</returns>
+        public List<<%=entity%>> QueryAll(string returnFields, int top = -1, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string topN = null;
+            if(top != -1)
+            {
+               topN = " TOP " + top + " "; 
+            }
+            string sql = "SELECT " + topN + returnFields + " FROM [<%=Table.Name%>] " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql);
+        }
+
+        /// <summary>
+        /// 查询所有数据
+        /// </summary>
+        /// <param name="returnFields">要返回的字段，用逗号隔开，如"id,name"，为*时返回所有字段</param>
+        /// <param name="top">返回前n条记录，默认-1返回所有</param>
+        /// <param name="orderBy">排序，如"id"或"id desc",或"id desc,name desc"，默认null不排序</param>
+        /// <returns>返回dynamic集合</returns>
+        public List<dynamic> QueryAll_d(string returnFields, int top = -1, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string topN = null;
+            if(top != -1)
+            {
+               topN = " TOP " + top + " "; 
+            }
+            string sql = "SELECT " + topN + returnFields + " FROM [<%=Table.Name%>] " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList(sql);
+        }
+        
+        /// <summary>
+        /// 根据where返回List集合
+        /// </summary>
+        /// <param name="returnFields">要返回的字段，用逗号隔开，如"id,name"，为*时返回所有字段</param>
+        /// <param name="whereFields">where语句字段，用逗号隔开，如"id,name"，sql语句为and</param>
+        /// <param name="entity">实体集参数</param>
+        /// <param name="top">返回前n条记录，默认-1返回所有</param>
+        /// <param name="orderBy">排序，如"id"或"id desc",或"id desc,name desc"，默认null不排序</param>
+        /// <returns></returns>
+        public List<<%=entity%>> QueryListByWhere(string returnFields, string whereFields, <%=entity%> entity, int top = -1, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string topN = null;
+            if (top != -1)
+            {
+                topN = " TOP " + top + " ";
+            }
+            string where = "WHERE " + StringHelper.SqlWhereFields(whereFields) + " ";
+            string sql = "SELECT " + topN + returnFields + " FROM [<%=Table.Name%>] " + where + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql, entity);
+        }
+
+        /// <summary>
+        /// 根据where返回dynamic集合
+        /// </summary>
+        /// <param name="returnFields">要返回的字段，用逗号隔开，如"id,name"，为*时返回所有字段</param>
+        /// <param name="whereFields">where语句字段，用逗号隔开，如"id,name"，sql语句为and</param>
+        /// <param name="entity">实体集参数</param>
+        /// <param name="top">返回前n条记录，默认-1返回所有</param>
+        /// <param name="orderBy">排序，如"id"或"id desc",或"id desc,name desc"，默认null不排序</param>
+        /// <returns></returns>
+        public List<dynamic> QueryListByWhere_d(string returnFields, string whereFields, <%=entity%> entity, int top = -1, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string topN = null;
+            if (top != -1)
+            {
+                topN = " TOP " + top + " ";
+            }
+            string where = "WHERE " + StringHelper.SqlWhereFields(whereFields) + " ";
+            string sql = "SELECT " + topN + returnFields + " FROM [<%=Table.Name%>] " + where + orderBy;
+            return <%=SqlDapperHelper%>.QueryList(sql, entity);
+        }
+        
+        public List<<%=entity%>> QueryListByIn(string returnFields, string inField, object[] ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE " + inField + " IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql, new { ids = ids });
+        }
+        
+        public List<<%=entity%>> QueryListByIn(string returnFields, string inField, List<object> ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE " + inField + " IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql, new { ids = ids });
+        }
+        
+        public List<<%=entity%>> QueryListByIn(string returnFields, string inField, string ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE " + inField + " IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql, new { ids = ids.Split(',') });
+        }
+        
+        public List<dynamic> QueryListByIn_d(string returnFields, string inField, object[] ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE " + inField + " IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList(sql, new { ids = ids });
+        }
+        
+        public List<dynamic> QueryListByIn_d(string returnFields, string inField, List<object> ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE " + inField + " IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList(sql, new { ids = ids });
+        }
+        
+        public List<dynamic> QueryListByIn_d(string returnFields, string inField, string ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE " + inField + " IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList(sql, new { ids = ids.Split(',') });
+        }
+        
+        <%if(Table.HasPrimaryKey) {%>
+        public <%=entity%> QuerySingleById(string returnFields, <%=GetPKType(Table)%> <%=GetPKName(Table)%>)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] = @<%=GetPKName(Table)%>";
+            return <%=SqlDapperHelper%>.QuerySingle<<%=entity%>>(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> });
+        }
+        
+        public dynamic QuerySingleById_d(string returnFields, <%=GetPKType(Table)%> <%=GetPKName(Table)%>)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] = @<%=GetPKName(Table)%>";
+            return <%=SqlDapperHelper%>.QuerySingle(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> });
+        }
+        
+        public List<<%=entity%>> QueryListByIds(string returnFields, <%=GetPKType(Table)%>[] ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql, new { ids = ids });
+        }
+        
+        public List<<%=entity%>> QueryListByIds(string returnFields, List<<%=GetPKType(Table)%>> ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql, new { ids = ids });
+        }
+        
+        public List<<%=entity%>> QueryListByIds(string returnFields, string ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql, new { ids = ids.Split(',') });
+        }
+        
+        public List<dynamic> QueryListByIds_d(string returnFields, <%=GetPKType(Table)%>[] ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList(sql, new { ids = ids });
+        }
+        
+        public List<dynamic> QueryListByIds_d(string returnFields, List<<%=GetPKType(Table)%>> ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList(sql, new { ids = ids });
+        }
+        
+        public List<dynamic> QueryListByIds_d(string returnFields, string ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList(sql, new { ids = ids.Split(',') });
+        }
+        <%} %>
+        <%
+                    string orderBy = null;
+                    if(GetPKName(Table)==null)
+                    {
+                        orderBy="ORDER BY " + Table.Columns[0].Name;
+                    }
+                    else
+                    {
+                        orderBy="ORDER BY "+GetPKName(Table)+" DESC";
+                    }
+                %>
+        public List<<%=entity%>> QueryListByPage(string returnFields, int start, int end, ref int total,<%=entity%> entity = null, string whereFields = null, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            else
+            {
+                orderBy = "<%=orderBy %>";
+            }
+            
+            string where = null;
+            if(whereFields != null)
+            {
+                where = "WHERE " + StringHelper.SqlWhereFields(whereFields);
+            }
+            
+            string sql = @"
+                SELECT * FROM
+                (
+                	SELECT ROW_NUMBER() OVER({0}) AS num,{1} FROM [{2}] {3}
+                ) AS [T]
+                WHERE [num] BETWEEN {4} AND {5};
+                
+                SELECT COUNT(1) FROM [{2}] {3}";
+            sql = string.Format(sql, orderBy, returnFields, "<%=Table.Name%>", where, start, end);
+            using (IDbConnection conn = <%=SqlDapperHelper%>.CreateConnection())
+            {
+                using (var mutil = conn.QueryMultiple(sql, entity))
+                {
+                     var list = mutil.Read<<%=entity%>>().ToList();
+                     total = mutil.Read<int>().FirstOrDefault();
+                     return list;
+                }
+            }
+        }
+        
+        public List<dynamic> QueryListByPage_d(string returnFields, int start, int end, ref int total,<%=entity%> entity = null, string whereFields = null, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            else
+            {
+                orderBy = "<%=orderBy %>";
+            }
+            
+            string where = null;
+            if(whereFields != null)
+            {
+                where = "WHERE " + StringHelper.SqlWhereFields(whereFields);
+            }
+            
+            string sql = @"
+                SELECT * FROM
+                (
+                	SELECT ROW_NUMBER() OVER({0}) AS num,{1} FROM [{2}] {3}
+                ) AS [T]
+                WHERE [num] BETWEEN {4} AND {5};
+                
+                SELECT COUNT(1) FROM [{2}] {3}";
+            sql = string.Format(sql, orderBy, returnFields, "<%=Table.Name%>", where, start, end);
+            using (IDbConnection conn = <%=SqlDapperHelper%>.CreateConnection())
+            {
+                using (var mutil = conn.QueryMultiple(sql, entity))
+                {
+                     var list = mutil.Read<dynamic>().ToList();
+                     total = mutil.Read<int>().FirstOrDefault();
+                     return list;
+                }
+            }
+        }
+        #endregion
+        
+    }
+    
+}

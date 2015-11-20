@@ -1,0 +1,29 @@
+﻿<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Src="ToolsCodeTemplate.cs" Inherits="ToolsCodeTemplate" %>
+<%@ Property Name="Table" Type="SchemaExplorer.TableSchema" Category="DB" %>
+<%@ Property Name="NameSpace" Type="System.String" Default="MyWeb.Model" Category="String" %>
+<script runat="template">
+    public override string GetFileName()
+    {
+    	return Table.Name + "Entity_Extend.cs";
+    }
+</script>
+using System;
+
+namespace <%=NameSpace %>
+{
+    <%PrintHeader(Table.Name + "表拓展属性，请在此文件中添加拓展属性"); %>
+    
+    /// <summary>
+    /// 表名:<%=Table.Name %>
+    /// 描述:<%=Table.Description %>
+    /// 主键和自增:<%if(!Table.HasPrimaryKey) {%>无主键<%} %> <%if(!HasIdentity(Table)) {%>无自增字段<%} %>
+    /// </summary>
+    public partial class <%=Table.Name %>Entity
+    {
+        
+    }
+}

@@ -1,0 +1,155 @@
+﻿<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Src="ToolsCodeTemplate.cs" Inherits="ToolsCodeTemplate" %>
+<%@ Property Name="Table" Type="SchemaExplorer.TableSchema" Category="DB" %>
+<%@ Property Name="NameSpace" Type="System.String" Default="MyWeb.DAL" Category="String" %>
+<%@ Property Name="NameSpaceModel" Type="System.String" Default="MyWeb.Model" Category="String" %>
+<%@ Property Name="SqlHelper" Type="System.String" Default="SqlHelper" Category="String" %>
+<%@ Property Name="SqlDapperHelper" Type="System.String" Default="SqlDapperHelper" Category="String" %>
+<script runat="template">
+    public override string GetFileName()
+    {
+    	return Table.Name + "DAL.cs";
+    }
+</script>
+<% 
+    string entity=Table.Name+"Table";
+%>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using Utils;
+using <%=NameSpaceModel %>;
+
+namespace <%=NameSpace %>
+{
+    <%PrintHeader("模板生成方法，对应"+Table.Name+"表基础增、删、改、查、等方法。"); %>
+    
+    /// <summary>
+    /// 表名:<%=Table.Name %>
+    /// 描述:<%=Table.Description %>
+    /// 主键和自增:<%if(!Table.HasPrimaryKey) {%>无主键<%} %> <%if(!HasIdentity(Table)) {%>无自增字段<%} %>
+    /// </summary>
+    public partial class <%=Table.Name %>DAL
+    {
+    
+        <%if(HasIdentity(Table)) {%>
+        public <%=GetIdentityType(Table) %> Insert(<%=entity%> entity)
+        {
+            string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>)";
+            var par = new { <%=GetDynamicParamsNoPI(Table)%> };
+            <%=SqlDapperHelper%>.Execute(sql, par);
+            return <%=SqlDapperHelper%>.ExecuteScalar<<%=GetIdentityType(Table) %>>("SELECT MAX([<%=GetIdentityName(Table)%>]) FROM [<%=Table.Name%>]");
+        }
+        <%} else{%>
+        public int Insert(<%=entity%> entity)
+        {
+            string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>)";
+            var par = new { <%=GetDynamicParams(Table)%> };
+            return <%=SqlDapperHelper%>.Execute(sql, par);
+        }
+        <%} %>
+        
+        public int UpdateAll(object obj, string updateFields = null)
+        {
+            if (updateFields == null)
+            {
+                updateFields = "<%=GetValuesEquals_NoPI(Table)%>";
+                <%=entity%> entity = obj as <%=entity%>;
+                obj = new { <%=GetDynamicParamsNoPI(Table)%> };
+            }
+            else
+            {
+                updateFields = StringHelper.SqlUpdateFields(updateFields);
+            }
+            string sql = "UPDATE [<%=Table.Name%>] SET " + updateFields;
+            return <%=SqlDapperHelper%>.Execute(sql, obj);
+        }
+        
+        public int DeleteAll()
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>]";
+            return <%=SqlDapperHelper%>.Execute(sql);
+        }
+        
+        public IEnumerable<<%=entity%>> QueryAll(string returnFields = "*", int top = -1, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = " ORDER BY " + orderBy;
+            }
+            string topN = null;
+            if(top != -1)
+            {
+               topN = " TOP " + top + " "; 
+            }
+            string sql = "SELECT " + topN + returnFields + " FROM [<%=Table.Name%>]" + orderBy;
+            return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql);
+        }
+        
+        <%if(Table.HasPrimaryKey) {%>
+        public int DeleteById(<%=GetPKType(Table)%> <%=GetPKName(Table)%>)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] = @<%=GetPKName(Table)%>";
+            return <%=SqlDapperHelper%>.Execute(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> });
+        }
+        
+        public int DeleteByIds(string ids)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN (" + ids + ")";
+            return <%=SqlDapperHelper%>.Execute(sql);
+        }
+        
+        public int UpdateFieldsById(string updateFields, object obj)
+        {
+            if (updateFields == null)
+            {
+                updateFields = "<%=GetValuesEquals_NoPI(Table)%>";
+                <%=entity%> entity = obj as <%=entity%>;
+                obj = new { <%=GetDynamicParamsNoPI(Table)%>, entity.<%=GetPKName(Table)%> };
+            }
+            else
+            {
+                updateFields = StringHelper.SqlUpdateFields(updateFields);
+            }
+            
+            string sql = string.Format("UPDATE [<%=Table.Name%>] SET {0} WHERE [<%=GetPKName(Table)%>]=@<%=GetPKName(Table)%>", updateFields);
+            return <%=SqlDapperHelper%>.Execute(sql, obj);
+        }
+        
+        public <%=entity%> QueryById(<%=GetPKType(Table)%> <%=GetPKName(Table)%>, string returnFields = "*")
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] = @<%=GetPKName(Table)%>";
+            return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> }).FirstOrDefault();
+        }
+        
+        public IEnumerable<<%=entity%>> QueryByIds(string ids, string returnFields = "*", string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = " ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN (" + ids + ")" + orderBy;
+            return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql);
+        }
+        <%}%>
+        
+        
+    }
+}

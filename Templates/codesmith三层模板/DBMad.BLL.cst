@@ -1,0 +1,121 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Src="ToolsCodeTemplate.cs" Inherits="ToolsCodeTemplate"%>
+<%@ Property Name="TargetTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="TargetTable that the object is based on." %>
+
+<%@ Property Name="ModelsNamespace" Default="MyOffice.Models" Type="System.String" Category="Context" Description="TargetTable that the object is based on." %>
+<%@ Property Name="DALNamespace" Default="MyOffice.DAL" Type="System.String" Category="Context" Description="TargetTable that the object is based on." %>
+<%@ Property Name="BLLNamespace" Default="MyOffice.BLL" Type="System.String" Category="Context" Description="TargetTable that the object is based on." %>
+
+<%@ Property Name="BLLClassNameSurfix" Default="Manager" Type="System.String" Category="Context" Description="TargetTable that the object is based on." %>
+<%@ Property Name="DALClassNameSurfix" Default="Service" Type="System.String" Category="Context" Description="TargetTable that the object is based on." %>
+
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.Text.RegularExpressions" %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using <%= DALNamespace %>;
+using <%= ModelsNamespace %>;
+
+namespace <%= BLLNamespace %>
+{
+
+    public partial class <%= GetBLLClassName() %>
+    {
+        public <%= GetModelClassName() %> Add(<%= GetModelClassName() %> <%= GetModelParamName() %>)
+        {
+            return new <%= GetDALClassName() %>().Add(<%= GetModelParamName() %>);
+        }
+
+        public int DeleteBy<%= GetPKPropertyName() %>(<%= GetPKPropertyType() %> <%= GetPKParamName() %>)
+        {
+            return new <%= GetDALClassName() %>().DeleteBy<%= GetPKPropertyName() %>(<%= GetPKParamName() %>);
+        }
+
+		public int Update(<%= GetModelClassName() %> <%= GetModelParamName() %>)
+        {
+            return new <%= GetDALClassName() %>().Update(<%= GetModelParamName() %>);
+        }
+        
+
+        public <%= GetModelClassName() %> GetBy<%= GetPKPropertyName() %>(<%= GetPKPropertyType() %> <%= GetPKParamName() %>)
+        {
+            return new <%= GetDALClassName() %>().GetBy<%= GetPKPropertyName() %>(<%= GetPKParamName() %>);
+        }
+		public int GetTotalCount()
+		{
+			return new <%= GetDALClassName() %>().GetTotalCount();
+		}
+		
+		public IEnumerable<<%= GetModelClassName() %>> GetPagedData(int minrownum,int maxrownum)
+		{
+			return new <%= GetDALClassName() %>().GetPagedData(minrownum,maxrownum);
+		}
+		
+		public IEnumerable<<%= GetModelClassName() %>> GetAll()
+		{
+			return new <%= GetDALClassName() %>().GetAll();
+		}
+    }
+}
+<script runat="template">
+///////////////////////////////////////////////////////////////
+// CLASS NAME by Shen Bo
+///////////////////////////////////////////////////////////////
+public string GetBLLClassName()
+{
+	return 	GetModelClassName() + BLLClassNameSurfix;
+}
+public string GetDALClassName()
+{
+	return 	GetModelClassName() + DALClassNameSurfix;
+}
+public string GetModelMemberVarName()
+{
+	return GetModelParamName();
+}
+public string GetModelParamName()
+{
+	return MakeCamel(GetModelClassName());
+}
+public string GetModelClassName()
+{
+	return 	GetModelClassName(TargetTable);
+}
+
+///////////////////////////////////////////////////////////////
+// PRIMARY KEY TYPE by Shen Bo
+///////////////////////////////////////////////////////////////
+public string GetPKPropertyType()
+{
+	return 	GetPKType(TargetTable);
+}
+
+///////////////////////////////////////////////////////////////
+// PRIMARY KEY NAME by Shen Bo
+///////////////////////////////////////////////////////////////
+public string GetPKPropertyName()
+{
+	return MakePascal(GetPKName());
+}
+public string GetPKMemberVarName()
+{
+	return MakeCamel(GetPKName());	
+}
+public string GetPKParamName()
+{
+	return GetPKMemberVarName();	
+}
+public string GetPKName()
+{
+	return GetPKName(TargetTable);
+}
+
+public override string GetFileName()
+{
+	return this.GetBLLClassName() + ".cs";
+}
+
+</script>

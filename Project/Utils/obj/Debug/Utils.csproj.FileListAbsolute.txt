@@ -1,0 +1,8 @@
+E:\vs2012项目\TestDapper2\Utils\bin\Debug\Utils.dll
+E:\vs2012项目\TestDapper2\Utils\bin\Debug\Utils.pdb
+E:\vs2012项目\TestDapper2\Utils\bin\Debug\Aspose.Cells.dll
+E:\vs2012项目\TestDapper2\Utils\bin\Debug\blqw.Literacy.dll
+E:\vs2012项目\TestDapper2\Utils\bin\Debug\MySql.Data.dll
+E:\vs2012项目\TestDapper2\Utils\bin\Debug\Newtonsoft.Json.dll
+E:\vs2012项目\TestDapper2\Utils\obj\Debug\Utils.dll
+E:\vs2012项目\TestDapper2\Utils\obj\Debug\Utils.pdb

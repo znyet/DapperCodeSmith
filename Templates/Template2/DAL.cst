@@ -1,0 +1,156 @@
+﻿<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Src="ToolsCodeTemplate.cs" Inherits="ToolsCodeTemplate" %>
+<%@ Property Name="Table" Type="SchemaExplorer.TableSchema" Category="DB" %>
+<%@ Property Name="NameSpace" Type="System.String" Default="MyWeb.DAL" Category="String" %>
+<%@ Property Name="NameSpaceModel" Type="System.String" Default="MyWeb.Model" Category="String" %>
+<%@ Property Name="SqlHelper" Type="System.String" Default="SqlHelper" Category="String" %>
+<%@ Property Name="SqlDapperHelper" Type="System.String" Default="SqlDapperHelper" Category="String" %>
+<script runat="template">
+    public override string GetFileName()
+    {
+    	return Table.Name + "DAL.cs";
+    }
+</script>
+<% 
+    string entity=Table.Name+"Entity";
+%>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using Utils;
+using blqw;
+using Dapper;
+using <%=NameSpaceModel %>;
+
+namespace <%=NameSpace %>
+{
+    <%PrintHeader("模板生成方法，对应"+Table.Name+"表基础增、删、改、查、等方法。"); %>
+    
+    /// <summary>
+    /// 表名:<%=Table.Name %>
+    /// 描述:<%=Table.Description %>
+    /// 主键和自增:<%if(!Table.HasPrimaryKey) {%>无主键<%} %> <%if(!HasIdentity(Table)) {%>无自增字段<%} %>
+    /// </summary>
+    public partial class <%=Table.Name %>DAL
+    {
+        <%if(HasIdentity(Table)) {%>
+        public <%=GetIdentityType(Table) %> Insert(<%=entity%> entity)
+        {
+            string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>);SELECT @@IDENTITY";
+            return <%=SqlDapperHelper%>.ExecuteScalar<<%=GetIdentityType(Table) %>>(sql, entity);
+        }
+        
+        public int InsertIndetity(<%=entity%> entity)
+        {
+            string sql = "SET IDENTITY_INSERT [<%=Table.Name%>] ON;INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table, true) %>) VALUES (<%=GetValues(Table, true) %>);SET IDENTITY_INSERT [<%=Table.Name%>] OFF";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, entity);
+        }
+        <%} else{%>
+        public int Insert(<%=entity%> entity)
+        {
+            string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>);SELECT @@IDENTITY";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, entity);
+        }
+        <%} %>
+        
+        public int UpdateFields(<%=entity%> entity, string updateFields = null)
+        {
+            if (updateFields == null)
+            {
+                updateFields = "<%=GetValuesEquals_NoPI(Table)%>";
+            }
+            else
+            {
+                updateFields = StringHelper.SqlUpdateFields(updateFields);
+            }
+            string sql = "UPDATE [<%=Table.Name%>] SET " + updateFields;
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, entity);
+        }
+        
+        public int UpdateFieldsByWhere(string whereFields, <%=entity%> entity, string updateFields = null)
+        {
+            if (updateFields == null)
+            {
+                updateFields = "<%=GetValuesEquals_NoPI(Table)%>";
+            }
+            else
+            {
+                updateFields = StringHelper.SqlUpdateFields(updateFields);
+            }
+            string where = "WHERE " + StringHelper.SqlWhereFields(whereFields);
+            string sql = string.Format("UPDATE [<%=Table.Name%>] SET {0} " + where, updateFields);
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, entity);
+        }
+        
+        public int DeleteAll()
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>]";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql);
+        }
+        
+        <%if(Table.HasPrimaryKey) {%>
+        public int DeleteById(<%=GetPKType(Table)%> <%=GetPKName(Table)%>)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE <%=GetPKName(Table)%> = @<%=GetPKName(Table)%>";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> });
+        }
+        
+        public int DeleteByIds(List<<%=GetPKType(Table)%>> ids)
+        {
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE EXISTS(SELECT 1 FROM @table as t WHERE t.id=[<%=Table.Name%>].[<%=GetPKName(Table)%>])";
+            return <%=SqlDapperHelper%>.ExecuteNonQuery(sql, new { table = ids.AsTableValuedParameter("type_<%=GetPKType(Table)%>") });
+        }
+        <%} %>
+        
+        public List<<%=entity%>> QueryAll(string returnFields, int top = -1, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string topN = null;
+            if(top != -1)
+            {
+               topN = " TOP " + top + " "; 
+            }
+            string sql = "SELECT " + topN + returnFields + " FROM [<%=Table.Name%>] " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql);
+        }
+        
+        <%if(Table.HasPrimaryKey) {%>
+        public <%=entity%> QueryById(string returnFields, <%=GetPKType(Table)%> <%=GetPKName(Table)%>)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] = @<%=GetPKName(Table)%>";
+            return <%=SqlDapperHelper%>.QuerySingle<<%=entity%>>(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> });
+        }
+        
+        public List<<%=entity%>> QueryByIds(string returnFields, List<<%=GetPKType(Table)%>> ids, string orderBy = null)
+        {
+            if (returnFields == "*")
+            {
+                returnFields = "<%=GetFields(Table, true)%>";
+            }
+            if (orderBy != null)
+            {
+                orderBy = "ORDER BY " + orderBy;
+            }
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE EXISTS(SELECT 1 FROM @table as t WHERE t.id=[<%=Table.Name%>].[<%=GetPKName(Table)%>]) " + orderBy;
+            return <%=SqlDapperHelper%>.QueryList<<%=entity%>>(sql, new { table = ids.AsTableValuedParameter("type_<%=GetPKType(Table)%>") } );
+        }
+        <%} %>
+    }
+    
+}

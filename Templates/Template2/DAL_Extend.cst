@@ -1,0 +1,38 @@
+﻿<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ CodeTemplate Language="C#" TargetLanguage="C#" Src="ToolsCodeTemplate.cs" Inherits="ToolsCodeTemplate" %>
+<%@ Property Name="Table" Type="SchemaExplorer.TableSchema" Category="DB" %>
+<%@ Property Name="NameSpace" Type="System.String" Default="MyWeb.DAL" Category="String" %>
+<%@ Property Name="NameSpaceModel" Type="System.String" Default="MyWeb.Model" Category="String" %>
+<script runat="template">
+    public override string GetFileName()
+    {
+    	return Table.Name + "DAL_Extend.cs";
+    }
+</script>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using Utils;
+using blqw;
+using Dapper;
+using <%=NameSpaceModel %>;
+
+namespace <%=NameSpace %>
+{
+    <%PrintHeader(Table.Name + "表拓展方法，请在此文件中添加拓展方法"); %>
+    
+    /// <summary>
+    /// 表名:<%=Table.Name %>
+    /// 描述:<%=Table.Description %>
+    /// 主键和自增:<%if(!Table.HasPrimaryKey) {%>无主键<%} %> <%if(!HasIdentity(Table)) {%>无自增字段<%} %>
+    /// </summary>
+    public partial class <%=Table.Name %>DAL
+    {
+        
+    }
+}

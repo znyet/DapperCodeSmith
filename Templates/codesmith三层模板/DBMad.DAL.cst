@@ -1,0 +1,326 @@
+﻿<%@ CodeTemplate Language="C#" TargetLanguage="C#" Src="ToolsCodeTemplate.cs" Inherits="ToolsCodeTemplate"%>
+<%@ Property Name="TargetTable" Type="SchemaExplorer.TableSchema" Category="Context" Description="TargetTable that the object is based on." %>
+<%@ Property Name="ModelsNamespace" Default="MyOffice.Models" Type="System.String" Category="Context" Description="TargetTable that the object is based on." %>
+<%@ Property Name="DALNamespace" Default="MyOffice.DAL" Type="System.String" Category="Context" Description="TargetTable that the object is based on." %>
+<%@ Property Name="DALClassNameSurfix" Default="Service" Type="System.String" Category="Context" Description="TargetTable that the object is based on." %>
+<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ Import Namespace="System.Text.RegularExpressions" %>
+<% PrintHeader(); %>
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+using <%= ModelsNamespace %>;
+
+namespace <%= DALNamespace %>
+{
+	public partial class <%= GetDALClassName() %>
+	{
+		<%-- public static Book AddBook(Book book) --%>
+        public <%= GetModelClassName() %> Add
+			(<%= GetModelClassName() %> <%= GetModelParamName() %>)
+		{
+			<%if(IsIdentityPK())
+			{%>
+				string sql ="<%= GetAutoIncInsertSQLLine()%>";
+				SqlParameter[] para = new SqlParameter[]
+					{
+						<%
+						for(int i=0; i<TargetTable.NonPrimaryKeyColumns.Count; i++)
+						{
+							ColumnSchema column = TargetTable.NonPrimaryKeyColumns[i];
+							
+						%>
+						new SqlParameter("@<%= column.Name %>", ToDBValue(<%= GetModelParamName() %>.<%= GetPropertyName(column) %>)),
+						<%
+						}
+						%>
+					};
+					
+				<%= GetPKPropertyType() %> newId = (<%= GetPKPropertyType() %>)SqlHelper.ExecuteScalar(sql, para);
+				return GetBy<%= GetPKPropertyName() %>(newId);
+			<%}else
+			{%>
+				string sql ="<%= GetCommonInsertSQLLine()%>";
+				SqlParameter[] para = new SqlParameter[]
+					{
+						<%
+						for(int i=0; i<TargetTable.Columns.Count; i++)
+						{
+							ColumnSchema column = TargetTable.Columns[i];							
+						%>
+						new SqlParameter("@<%= column.Name %>", ToDBValue(<%= GetModelParamName() %>.<%= column.Name %>)),
+						<%
+						}
+						%>
+					};
+				SqlHelper.ExecuteNonQuery(sql, para);
+				return <%= GetModelParamName() %>;				
+			<%}%>
+		}
+
+		<%-- public static bool DeleteBookById(int id) --%>
+        public int DeleteBy<%= GetPKPropertyName() %>(<%= GetPKPropertyType() %> <%= GetPKParamName() %>)
+		{
+            string sql = "DELETE <%= TargetTable.Name %> WHERE <%= GetPKPropertyName() %> = @<%= GetPKPropertyName() %>";
+
+           SqlParameter[] para = new SqlParameter[]
+			{
+				new SqlParameter("@<%= GetPKName() %>", <%= GetPKParamName() %>)
+			};
+		
+            return SqlHelper.ExecuteNonQuery(sql, para);
+		}
+		
+				
+		<%-- public static bool ModifyBook(Book book) --%>
+        public int Update(<%= GetModelClassName() %> <%= GetModelParamName() %>)
+        {
+            string sql =
+                "UPDATE <%= TargetTable.Name %> " +
+                "SET " +
+			" <%= TargetTable.NonPrimaryKeyColumns[0].Name %> = @<%= TargetTable.NonPrimaryKeyColumns[0].Name %>" 
+			<%
+			for(int i=1; i<TargetTable.NonPrimaryKeyColumns.Count; i++)
+			{
+				ColumnSchema column = TargetTable.NonPrimaryKeyColumns[i];				
+			%>
+                +", <%= GetPropertyName(column) %> = @<%= GetPropertyName(column) %>" 
+			<%
+			}
+			%>
+               
+            +" WHERE <%= GetPKName() %> = @<%= GetPKName() %>";
+
+
+			SqlParameter[] para = new SqlParameter[]
+			{
+				new SqlParameter("@<%= GetPKName() %>", <%= GetModelParamName() %>.<%= GetPKPropertyName() %>)
+				<%
+				for(int i=0; i<TargetTable.NonPrimaryKeyColumns.Count; i++)
+				{
+					ColumnSchema column = TargetTable.NonPrimaryKeyColumns[i];
+				%>
+					,new SqlParameter("@<%= GetPropertyName(column) %>", ToDBValue(<%= GetModelParamName() %>.<%= GetPropertyName(column) %>))
+				<%
+				}
+				%>
+			};
+
+			return SqlHelper.ExecuteNonQuery(sql, para);
+        }		
+		
+		<%-- public static Book GetBookById(int id) --%>
+        public <%= GetModelClassName() %> GetBy<%= GetPKPropertyName() %>(<%= GetPKPropertyType() %> <%= GetPKParamName() %>)
+        {
+            string sql = "SELECT * FROM <%= TargetTable.Name %> WHERE <%= GetPKPropertyName() %> = @<%= GetPKPropertyName() %>";
+            using(SqlDataReader reader = SqlHelper.ExecuteDataReader(sql, new SqlParameter("@<%= GetPKPropertyName() %>", <%= GetPKParamName() %>)))
+			{
+				if (reader.Read())
+				{
+					return ToModel(reader);
+				}
+				else
+				{
+					return null;
+				}
+       		}
+        }
+		
+		public <%= GetModelClassName() %> ToModel(SqlDataReader reader)
+		{
+			<%= GetModelClassName() %> <%= GetModelParamName() %> = new <%= GetModelClassName() %>();
+
+			<% foreach(ColumnSchema column in TargetTable.Columns) %>
+			<% { %>
+			<%= GetModelParamName() %>.<%= GetPropertyName(column) %> = (<%=GetPropertyType(column)%>)ToModelValue(reader,"<%=column.Name%>");
+			<% } %>
+			return <%= GetModelParamName() %>;
+		}
+		
+		public int GetTotalCount()
+		{
+			string sql = "SELECT count(*) FROM <%= TargetTable.Name %>";
+			return (int)SqlHelper.ExecuteScalar(sql);
+		}
+		
+		public IEnumerable<<%= GetModelClassName() %>> GetPagedData(int minrownum,int maxrownum)
+		{
+			var list = new List<<%= GetModelClassName() %>>();
+			string sql = "SELECT * from(SELECT *,row_number() over(order by <%=this.GetPKName()%>) rownum FROM <%= TargetTable.Name %>) t where rownum>=@minrownum and rownum<=@maxrownum";
+			using(SqlDataReader reader = SqlHelper.ExecuteDataReader(sql,
+				new SqlParameter("@minrownum",minrownum),
+				new SqlParameter("@maxrownum",maxrownum)))
+			{
+				while(reader.Read())
+				{
+					list.Add(ToModel(reader));
+				}				
+			}
+			return list;
+		}
+		
+		public IEnumerable<<%= GetModelClassName() %>> GetAll()
+		{
+			var list = new List<<%= GetModelClassName() %>>();
+			string sql = "SELECT * FROM <%= TargetTable.Name %>";
+			using(SqlDataReader reader = SqlHelper.ExecuteDataReader(sql))
+			{
+				while(reader.Read())
+				{
+					list.Add(ToModel(reader));
+				}				
+			}
+			return list;
+		}
+		
+		public object ToDBValue(object value)
+		{
+			if(value==null)
+			{
+				return DBNull.Value;
+			}
+			else
+			{
+				return value;
+			}
+		}
+		
+		public object ToModelValue(SqlDataReader reader,string columnName)
+		{
+			if(reader.IsDBNull(reader.GetOrdinal(columnName)))
+			{
+				return null;
+			}
+			else
+			{
+				return reader[columnName];
+			}
+		}
+	}
+}
+<script runat="template">
+public bool IsIdentityPK()
+{
+	foreach(ColumnSchema column in TargetTable.Columns)
+	{
+		if((bool)column.ExtendedProperties["CS_IsIdentity"].Value) 
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+///////////////////////////////////////////////////////////////
+// CLASS NAMES by Shen Bo
+///////////////////////////////////////////////////////////////
+// UserService
+public string GetDALClassName()
+{
+	return 	GetModelClassName() + DALClassNameSurfix;
+}
+// User
+public string GetModelClassName()
+{
+	return 	GetModelClassName(TargetTable);
+}
+// user
+public string GetModelMemberVarName()
+{
+	return GetModelParamName();
+}
+// user
+public string GetModelParamName()
+{
+	return MakeCamel(GetModelClassName());
+}
+
+
+///////////////////////////////////////////////////////////////
+// INSERT SQL LINES by Shen Bo
+///////////////////////////////////////////////////////////////
+public string GetAutoIncInsertSQLLine()
+{
+	string result;
+	result = "INSERT INTO " + TargetTable.Name + " (";
+	foreach(ColumnSchema column in TargetTable.NonPrimaryKeyColumns)
+	{
+		result += column.Name + ", ";
+	}
+	result = result.Substring(0, result.Length-2);
+	result += ") ";
+	result+=" output inserted."+GetPKName();
+	result += " VALUES (";
+	foreach(ColumnSchema column in TargetTable.NonPrimaryKeyColumns)
+	{
+		result += "@" + column.Name + ", ";
+	}
+	result = result.Substring(0, result.Length-2);
+	result += ")";
+	return result;
+}
+
+public string GetCommonInsertSQLLine()
+{
+	string result;
+	result = "INSERT INTO " + TargetTable.Name + " (";
+	foreach(ColumnSchema column in TargetTable.Columns)
+	{
+		result += column.Name + ", ";
+	}
+	result = result.Substring(0, result.Length-2);
+	result += ") ";
+	result += " VALUES (";
+	foreach(ColumnSchema column in TargetTable.Columns)
+	{
+		result += "@" + column.Name + ", ";
+	}
+	result = result.Substring(0, result.Length-2);
+	result += ")";
+	return result;
+}
+
+///////////////////////////////////////////////////////////////
+// PRIMARY KEY TYPE by Shen Bo
+///////////////////////////////////////////////////////////////
+// int
+public string GetPKPropertyType()
+{
+	return 	GetPKType(TargetTable);
+}
+
+///////////////////////////////////////////////////////////////
+// PRIMARY KEY NAME by Shen Bo
+///////////////////////////////////////////////////////////////
+// Id
+public string GetPKPropertyName()
+{
+	return MakePascal(GetPKName());
+}
+// id
+public string GetPKParamName()
+{
+	return GetPKMemberVarName();	
+}
+// id
+public string GetPKMemberVarName()
+{
+	return MakeCamel(GetPKName());	
+}
+// Id
+public string GetPKName()
+{
+	return GetPKName(TargetTable);
+}
+
+public override string GetFileName()
+{
+	return this.GetDALClassName() + ".cs";
+}
+
+</script>
