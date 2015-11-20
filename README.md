@@ -1,0 +1,5 @@
+# DapperCodeSmith
+基于Dapper写的一套CodeSmith模板
+
+Templates文件夹存放的是CodeSmith模板;
+Project文件夹存放的是例子项目。
