@@ -231,14 +231,14 @@ public class ToolsCodeTemplate:CodeTemplate
     
     public string GetIdentityType(TableSchema table)
     {
-        if (table.HasPrimaryKey)
+        if (HasIdentity(table))
 		    return GetCsharpType(GetIdentityColumn(table));
 		return null;
     }
     
     public string GetIdentityName(TableSchema table)
     {
-        if (table.HasPrimaryKey)
+        if (HasIdentity(table))
 		    return GetIdentityColumn(table).Name;
 		return null;
     }
