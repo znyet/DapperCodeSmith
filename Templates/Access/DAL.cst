@@ -45,6 +45,13 @@ namespace <%=NameSpace %>
             <%=SqlDapperHelper%>.Execute(sql, par);
             return <%=SqlDapperHelper%>.ExecuteScalar<<%=GetIdentityType(Table) %>>("SELECT MAX([<%=GetIdentityName(Table)%>]) FROM [<%=Table.Name%>]");
         }
+        
+        public int InsertIdentity(<%=entity%> entity)
+        {
+            string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table, true) %>) VALUES (<%=GetValues(Table, true) %>)";
+            var par = new { <%=GetDynamicParams(Table)%> };
+            return <%=SqlDapperHelper%>.Execute(sql, par);
+        }
         <%} else{%>
         public int Insert(<%=entity%> entity)
         {
