@@ -40,19 +40,19 @@ namespace <%=NameSpace %>
         <%if(HasIdentity(Table)) {%>
         public <%=GetIdentityType(Table) %> Insert(<%=entity%> entity)
         {
-            string sql = "INSERT INTO `<%=Table.Name%>` (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>);SELECT @@IDENTITY";
+            string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>);SELECT last_insert_rowid()";
             return <%=SqlDapperHelper%>.ExecuteScalar<<%=GetIdentityType(Table) %>>(sql, entity);
         }
         
         public int InsertIdentity(<%=entity%> entity)
         {
-            string sql = "INSERT INTO `<%=Table.Name%>` (<%=GetFields(Table, true) %>) VALUES (<%=GetValues(Table, true) %>)";
+            string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table, true) %>) VALUES (<%=GetValues(Table, true) %>)";
             return <%=SqlDapperHelper%>.Execute(sql, entity);
         }
         <%} else{%>
         public int Insert(<%=entity%> entity)
         {
-            string sql = "INSERT INTO `<%=Table.Name%>` (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>)";
+            string sql = "INSERT INTO [<%=Table.Name%>] (<%=GetFields(Table) %>) VALUES (<%=GetValues(Table) %>)";
             return <%=SqlDapperHelper%>.Execute(sql, entity);
         }
         <%} %>
@@ -65,9 +65,9 @@ namespace <%=NameSpace %>
             }
             else
             {
-                updateFields = StringHelper.SqlUpdateFieldsForMySql(updateFields);
+                updateFields = StringHelper.SqlUpdateFields(updateFields);
             }
-            string sql = "UPDATE `<%=Table.Name%>` SET " + updateFields;
+            string sql = "UPDATE [<%=Table.Name%>] SET " + updateFields;
             return <%=SqlDapperHelper%>.Execute(sql, entity);
         }
         
@@ -79,29 +79,29 @@ namespace <%=NameSpace %>
             }
             else
             {
-                updateFields = StringHelper.SqlUpdateFieldsForMySql(updateFields);
+                updateFields = StringHelper.SqlUpdateFields(updateFields);
             }
-            string where = "WHERE " + StringHelper.SqlWhereFieldsForMySql(whereFields);
-            string sql = string.Format("UPDATE `<%=Table.Name%>` SET {0} " + where, updateFields);
+            string where = "WHERE " + StringHelper.SqlWhereFields(whereFields);
+            string sql = string.Format("UPDATE [<%=Table.Name%>] SET {0} " + where, updateFields);
             return <%=SqlDapperHelper%>.Execute(sql, entity);
         }
         
         public int DeleteAll()
         {
-            string sql = "DELETE FROM `<%=Table.Name%>`";
+            string sql = "DELETE FROM [<%=Table.Name%>]";
             return <%=SqlDapperHelper%>.Execute(sql);
         }
         
         <%if(Table.HasPrimaryKey) {%>
         public int DeleteById(<%=GetPKType(Table)%> <%=GetPKName(Table)%>)
         {
-            string sql = "DELETE FROM `<%=Table.Name%>` WHERE `<%=GetPKName(Table)%>` = @<%=GetPKName(Table)%>";
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] = @<%=GetPKName(Table)%>";
             return <%=SqlDapperHelper%>.Execute(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> });
         }
         
         public int DeleteByIds(List<<%=GetPKType(Table)%>> ids)
         {
-            string sql = "DELETE FROM `<%=Table.Name%>` WHERE `<%=GetPKName(Table)%>` IN @ids";
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids";
             return <%=SqlDapperHelper%>.Execute(sql, new { ids = ids });
         }
         <%} %>
@@ -121,7 +121,7 @@ namespace <%=NameSpace %>
             {
                 topN = " LIMIT " + top; 
             }
-            string sql = "SELECT " + returnFields + " FROM `<%=Table.Name%>`" + orderBy + topN;
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>]" + orderBy + topN;
             return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql);
         }
         
@@ -132,7 +132,7 @@ namespace <%=NameSpace %>
             {
                 returnFields = "<%=GetFields(Table, true)%>";
             }
-            string sql = "SELECT " + returnFields + " FROM `<%=Table.Name%>` WHERE `<%=GetPKName(Table)%>` = @<%=GetPKName(Table)%>";
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] = @<%=GetPKName(Table)%>";
             return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> }).FirstOrDefault();
         }
         
@@ -146,7 +146,7 @@ namespace <%=NameSpace %>
             {
                 orderBy = " ORDER BY " + orderBy;
             }
-            string sql = "SELECT " + returnFields + " FROM `<%=Table.Name%>` WHERE `<%=GetPKName(Table)%>` IN @ids" + orderBy;
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids" + orderBy;
             return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql, new { ids = ids });
         }
         <%} %>

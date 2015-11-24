@@ -83,9 +83,9 @@ namespace <%=NameSpace %>
             return <%=SqlDapperHelper%>.Execute(sql);
         }
         
-        public IEnumerable<<%=entity%>> QueryAll(string returnFields = "*", int top = -1, string orderBy = null)
+        public IEnumerable<<%=entity%>> QueryAll(string returnFields = null, int top = -1, string orderBy = null)
         {
-            if (returnFields == "*")
+            if (returnFields == null)
             {
                 returnFields = "<%=GetFields(Table, true)%>";
             }
@@ -94,9 +94,9 @@ namespace <%=NameSpace %>
                 orderBy = " ORDER BY " + orderBy;
             }
             string topN = null;
-            if(top != -1)
+            if (top != -1)
             {
-               topN = " TOP " + top + " "; 
+                topN = " TOP " + top + " "; 
             }
             string sql = "SELECT " + topN + returnFields + " FROM [<%=Table.Name%>]" + orderBy;
             return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql);
@@ -109,13 +109,13 @@ namespace <%=NameSpace %>
             return <%=SqlDapperHelper%>.Execute(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> });
         }
         
-        public int DeleteByIds(string ids)
+        public int DeleteByIds(List<<%=GetPKType(Table)%>> ids)
         {
-            string sql = "DELETE FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN (" + ids + ")";
-            return <%=SqlDapperHelper%>.Execute(sql);
+            string sql = "DELETE FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids";
+            return <%=SqlDapperHelper%>.Execute(sql, new { ids = ids });
         }
         
-        public int UpdateFieldsById(string updateFields, object obj)
+        public int UpdateFieldsById(object obj, string updateFields)
         {
             if (updateFields == null)
             {
@@ -132,9 +132,9 @@ namespace <%=NameSpace %>
             return <%=SqlDapperHelper%>.Execute(sql, obj);
         }
         
-        public <%=entity%> QueryById(<%=GetPKType(Table)%> <%=GetPKName(Table)%>, string returnFields = "*")
+        public <%=entity%> QueryById(<%=GetPKType(Table)%> <%=GetPKName(Table)%>, string returnFields = null)
         {
-            if (returnFields == "*")
+            if (returnFields == null)
             {
                 returnFields = "<%=GetFields(Table, true)%>";
             }
@@ -142,9 +142,9 @@ namespace <%=NameSpace %>
             return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> }).FirstOrDefault();
         }
         
-        public IEnumerable<<%=entity%>> QueryByIds(string ids, string returnFields = "*", string orderBy = null)
+        public IEnumerable<<%=entity%>> QueryByIds(List<<%=GetPKType(Table)%>> ids, string returnFields = null, string orderBy = null)
         {
-            if (returnFields == "*")
+            if (returnFields == null)
             {
                 returnFields = "<%=GetFields(Table, true)%>";
             }
@@ -152,8 +152,8 @@ namespace <%=NameSpace %>
             {
                 orderBy = " ORDER BY " + orderBy;
             }
-            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN (" + ids + ")" + orderBy;
-            return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql);
+            string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids" + orderBy;
+            return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql, new { ids = ids });
         }
         <%}%>
         

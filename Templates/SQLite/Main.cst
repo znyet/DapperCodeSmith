@@ -1,0 +1,80 @@
+﻿<%@ Assembly Name="SchemaExplorer" %>
+<%@ Assembly Name="System.Data" %>
+<%@ Import Namespace="SchemaExplorer" %>
+<%@ Import Namespace="System.Data" %>
+<%@ CodeTemplate Language="C#" TargetLanguage="Text" Src="" Inherits="" Debug="False" Description="Template description here." Output="None"%>
+<%@ Register Name="Model" Template="Model.cst" MergeProperties="False" ExcludeProperties="" %>
+<%@ Register Name="Model_Extend" Template="Model_Extend.cst" MergeProperties="False" ExcludeProperties="" %>
+<%@ Register Name="DAL" Template="DAL.cst" MergeProperties="False" ExcludeProperties="" %>
+<%@ Register Name="DAL_Extend" Template="DAL_Extend.cst" MergeProperties="False" ExcludeProperties="" %>
+<%@ Register Name="BLL" Template="BLL.cst" MergeProperties="False" ExcludeProperties="" %>
+<%@ Property Name="Tables" Type="SchemaExplorer.TableSchemaCollection" Optional="False" Category="DB"%>
+<%@ Property Name="NameSpaceModel" Type="System.String" Default="MyWeb.Model" Category="String" %>
+<%@ Property Name="NameSpaceDAL" Type="System.String" Default="MyWeb.DAL" Category="String" %>
+<%@ Property Name="NameSpaceBLL" Type="System.String" Default="MyWeb.BLL" Category="String" %>
+<%@ Property Name="SqlHelper" Type="System.String" Default="SqlHelper" Category="String" %>
+<%@ Property Name="SqlDapperHelper" Type="System.String" Default="SqlDapperHelper" Category="String" %>
+<script runat="template">
+		private string _outputDirectory = String.Empty;
+		[Editor(typeof(System.Windows.Forms.Design.FolderNameEditor), typeof(System.Drawing.Design.UITypeEditor))] 
+		[Description("The directory to output the results to.")]
+		public string OutputDirectory 
+		{
+			get
+			{		
+				return _outputDirectory;
+			}
+			set
+			{
+				if (value != null && !value.EndsWith("\\"))
+				{
+					value += "\\";
+			    }
+				_outputDirectory = value;
+			} 
+		}
+</script>
+<%
+        
+    Response.Write("生成目录 " + this.OutputDirectory);
+    Response.Write("\r\n");
+    foreach(var table in Tables)
+    {
+        Model model = new Model();
+        model.Table = table;
+        model.NameSpace = this.NameSpaceModel;
+        model.RenderToFile(this.OutputDirectory + "Model/" + model.GetFileName(), true);
+    	
+        Model_Extend model_extend = new Model_Extend();
+        model_extend.Table = table;
+        model_extend.NameSpace = this.NameSpaceModel;
+        model_extend.RenderToFile(this.OutputDirectory + "Model_Extend/" + model_extend.GetFileName(), true);
+        
+
+        DAL dal = new DAL();
+        dal.Table = table;
+        dal.NameSpace = this.NameSpaceDAL;
+        dal.NameSpaceModel = this.NameSpaceModel;
+        dal.SqlDapperHelper = SqlDapperHelper;
+        dal.SqlHelper = SqlHelper;
+        dal.RenderToFile(this.OutputDirectory + "DAL/" + dal.GetFileName(), true);
+
+        DAL_Extend dal_extend = new DAL_Extend();
+        dal_extend.Table = table;
+        dal_extend.NameSpace = this.NameSpaceDAL;
+        dal_extend.NameSpaceModel = this.NameSpaceModel;
+        dal_extend.RenderToFile(this.OutputDirectory + "DAL_Extend/" + dal_extend.GetFileName(), true);
+        
+//        BLL bll = this.Create<BLL>();
+//        bll.ModelsNamespace = model.ModelsNamespace;
+//        bll.DALClassNameSurfix = dal.DALClassNameSurfix;
+//        bll.DALNamespace = dal.DALNamespace;
+//        bll.BLLClassNameSurfix = "BLL";
+//        bll.BLLNamespace = this.RootNamespace+".BLL";
+//        bll.TargetTable = this.SourceTable;
+//        bll.RenderToFile(this.OutputDirectory+"BLL/"+bll.GetFileName(),true);
+
+        Response.Write("生成成功 " + table.Name);
+        Response.Write("\r\n");
+    }
+%>

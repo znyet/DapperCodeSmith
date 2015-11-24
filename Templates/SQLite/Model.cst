@@ -31,12 +31,17 @@ namespace <%=NameSpace %>
         /// 数据类型:<%=GetSqlDbType(column) %>
         /// 数据长度:<%=column.Size %>
         /// 允许空值:<%=column.AllowDBNull %>
+        <%if(column.IsPrimaryKeyMember) {%>
+        /// 主键
+        <%} %>
+        <%if(IsIdentity(column)) {%>
+        /// 自增
+        <%} %>
         /// </summary>
         <%if(column.IsPrimaryKeyMember) {%>
         <%} %>
         public <%=GetCsharpType(column) %> <%=column.Name %> { get; set; }
-        <%=column.ExtendedProperties["CS_Description"].Value %>
-        <%=column.ExtendedProperties["CS_Description"].Value %>
+        
         <%}%>        
     }
 }
