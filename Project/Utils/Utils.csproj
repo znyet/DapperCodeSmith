@@ -47,6 +47,9 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>..\Lib\System.Data.SQLite.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -69,8 +72,12 @@
     <Compile Include="SQL\Helper\AccessDapperHelper.cs" />
     <Compile Include="SQL\ConnectionString.cs" />
     <Compile Include="SQL\Helper\SqlDapperHelper.cs" />
+    <Compile Include="SQL\Helper\SQLiteDapperHelper.cs" />
     <Compile Include="SQL\SqlMapper.cs" />
     <Compile Include="StringHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

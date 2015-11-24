@@ -1,4 +1,4 @@
-﻿
+﻿using System.Data.SQLite;
 namespace Utils
 {
     public class ConnectionString
@@ -11,5 +11,7 @@ namespace Utils
         public static string MySqlConnettionString = "server=localhost;database=test;uid=root;Charset=utf8";
 
         public static string OracleConnectionString = "Provider=OraOLEDB.Oracle.1;Data Source=orcl;User ID=sysman;Password=sa;Unicode=True";
+
+        public static string SQLiteConnectionString = "data source=|DataDirectory|test.db";
     }
 }
