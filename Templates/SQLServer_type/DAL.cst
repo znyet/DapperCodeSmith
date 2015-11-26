@@ -190,7 +190,7 @@ namespace <%=NameSpace %>
 DECLARE @total BIGINT
 SET @total=(SELECT COUNT(1) FROM [<%=Table.Name%>] {0})
 SELECT @total
-IF(@total!=0)
+IF(@total!=0 AND @total>@skip)
 	BEGIN
 	  {1}
 	END", pageinfo.Where, sqlData);
@@ -210,7 +210,7 @@ IF(@total!=0)
                 }
 
                 pageinfo.Total = Reader.Read<long>().FirstOrDefault();
-                if (pageinfo.Total != 0)
+                if (pageinfo.Total != 0 && pageinfo.Total > pageinfo.Skip)
                 {
                     pageinfo.Data = Reader.Read<T>();
                 }
