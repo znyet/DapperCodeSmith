@@ -1,0 +1,16 @@
+CREATE TYPE [dbo].[type_int] AS TABLE(
+	[id] [INT] NULL
+)
+GO
+========================================
+CREATE TYPE [dbo].[type_long] AS TABLE(
+	[id] [BIGINT] NULL
+)
+GO
+
+==========================================
+CREATE TYPE [dbo].[type_string] AS TABLE(
+	[id] [NVARCHAR](100) NULL
+)
+GO
+

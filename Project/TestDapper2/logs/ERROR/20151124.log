@@ -1,0 +1,720 @@
+异常时间：2015-11-24 11:40:25,613 线程：[13] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：SQL logic error or missing database
+unrecognized token: "@"
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   在 System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   在 System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   在 System.Data.SQLite.SQLiteDataReader.NextResult()
+   在 System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteScalar(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteScalar()
+   在 Dapper.SqlMapper.ExecuteScalarImpl[T](IDbConnection cnn, CommandDefinition& command) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 3429
+   在 Dapper.SqlMapper.ExecuteScalar[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1262
+   在 Utils.SQLiteDapperHelper.ExecuteScalar[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 57
+   在 TestDapper2.PeopleDAL.Insert(PeopleTable entity) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\PeopleDAL.cs:行号 29
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 30
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteStatement Prepare(System.Data.SQLite.SQLiteConnection, System.String, System.Data.SQLite.SQLiteStatement, UInt32, System.String ByRef)
+
+
+===============================================
+异常时间：2015-11-24 11:43:08,076 线程：[5] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：constraint failed
+UNIQUE constraint failed: People.id
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   在 System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   在 System.Data.SQLite.SQLiteDataReader.NextResult()
+   在 System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   在 Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 3401
+   在 Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1346
+   在 Dapper.SqlMapper.Execute(IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1221
+   在 Utils.SQLiteDapperHelper.Execute(String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 29
+   在 TestDapper2.PeopleDAL.InsertIdentity(PeopleTable entity) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\PeopleDAL.cs:行号 35
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 31
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteErrorCode Reset(System.Data.SQLite.SQLiteStatement)
+
+
+===============================================
+异常时间：2015-11-24 13:50:51,205 线程：[121] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：constraint failed
+UNIQUE constraint failed: People.id
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   在 System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   在 System.Data.SQLite.SQLiteDataReader.NextResult()
+   在 System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   在 Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 3401
+   在 Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1346
+   在 Dapper.SqlMapper.Execute(IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1221
+   在 Utils.SQLiteDapperHelper.Execute(String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 29
+   在 TestDapper2.PeopleDAL.InsertIdentity(PeopleTable entity) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\PeopleDAL.cs:行号 35
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 31
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteErrorCode Reset(System.Data.SQLite.SQLiteStatement)
+
+
+===============================================
+异常时间：2015-11-24 13:51:21,324 线程：[121] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：constraint failed
+UNIQUE constraint failed: People.id
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   在 System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   在 System.Data.SQLite.SQLiteDataReader.NextResult()
+   在 System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   在 Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 3401
+   在 Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1346
+   在 Dapper.SqlMapper.Execute(IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1221
+   在 Utils.SQLiteDapperHelper.Execute(String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 29
+   在 TestDapper2.PeopleDAL.InsertIdentity(PeopleTable entity) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\PeopleDAL.cs:行号 35
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 31
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteErrorCode Reset(System.Data.SQLite.SQLiteStatement)
+
+
+===============================================
+异常时间：2015-11-24 14:17:21,640 线程：[113] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：FUNCTION test.id does not exist
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：MySql.Data
+堆栈信息：   在 MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   在 MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   在 MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   在 MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   在 MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   在 MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   在 MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.MySqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\MySqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByIds(String returnFields, List`1 ids, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\PeopleDAL.cs:行号 125
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 27
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：MySql.Data.MySqlClient.MySqlPacket ReadPacket()
+
+
+===============================================
+异常时间：2015-11-24 14:18:46,799 线程：[114] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：FUNCTION test.id does not exist
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：MySql.Data
+堆栈信息：   在 MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   在 MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   在 MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   在 MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   在 MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   在 MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   在 MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.MySqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\MySqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByIds(String returnFields, List`1 ids, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\PeopleDAL.cs:行号 125
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 27
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：MySql.Data.MySqlClient.MySqlPacket ReadPacket()
+
+
+===============================================
+异常时间：2015-11-24 16:40:52,002 线程：[113] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：SQL logic error or missing database
+near "from": syntax error
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.SQLite3.Prepare(SQLiteConnection cnn, String strSql, SQLiteStatement previous, UInt32 timeoutMS, String& strRemain)
+   在 System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   在 System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   在 System.Data.SQLite.SQLiteDataReader.NextResult()
+   在 System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.SQLiteDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 71
+   在 TestDapper2.PeopleDAL.QueryByPage(Int32 skip, Int32 take) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\PeopleDAL.cs:行号 147
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 41
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteStatement Prepare(System.Data.SQLite.SQLiteConnection, System.String, System.Data.SQLite.SQLiteStatement, UInt32, System.String ByRef)
+
+
+===============================================
+异常时间：2015-11-24 16:41:11,229 线程：[120] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：unknown error
+Insufficient parameters supplied to the command
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.SQLiteStatement.BindParameter(Int32 index, SQLiteParameter param)
+   在 System.Data.SQLite.SQLiteStatement.BindParameters()
+   在 System.Data.SQLite.SQLiteCommand.BuildNextCommand()
+   在 System.Data.SQLite.SQLiteCommand.GetStatement(Int32 index)
+   在 System.Data.SQLite.SQLiteDataReader.NextResult()
+   在 System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.SQLiteDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 71
+   在 TestDapper2.PeopleDAL.QueryByPage(Int32 skip, Int32 take) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\PeopleDAL.cs:行号 147
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 41
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void BindParameter(Int32, System.Data.SQLite.SQLiteParameter)
+
+
+===============================================
+异常时间：2015-11-24 17:08:40,598 线程：[120] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：“TestDapper2.PeopleTable”未包含“qq”的定义
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：Anonymously Hosted DynamicMethods Assembly
+堆栈信息：   在 CallSite.Target(Closure , CallSite , Object , Int32 )
+   在 System.Dynamic.UpdateDelegates.UpdateAndExecute2[T0,T1,TRet](CallSite site, T0 arg0, T1 arg1)
+   在 TestDapper2.PeopleDAL.CC(Object par) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\PeopleDAL.cs:行号 149
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 37
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Object CallSite.Target(System.Runtime.CompilerServices.Closure, System.Runtime.CompilerServices.CallSite, System.Object, Int32)
+
+
+===============================================
+异常时间：2015-11-24 17:23:15,059 线程：[120] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：'`' 附近有语法错误。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：.Net SqlClient Data Provider
+堆栈信息：   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   在 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.SqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByPage(Int32 skip, Int32 take, String returnFields, Object par, String where, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\peopleDAL.cs:行号 146
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 34
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+
+
+===============================================
+异常时间：2015-11-24 17:25:28,593 线程：[120] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：'`' 附近有语法错误。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：.Net SqlClient Data Provider
+堆栈信息：   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   在 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.SqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByPage(Int32 skip, Int32 take, String returnFields, Object par, String where, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\peopleDAL.cs:行号 146
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 34
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+
+
+===============================================
+异常时间：2015-11-24 17:26:42,369 线程：[103] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：'`' 附近有语法错误。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：.Net SqlClient Data Provider
+堆栈信息：   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   在 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.SqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByPage(Int32 skip, Int32 take, String returnFields, Object par, String where, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\peopleDAL.cs:行号 146
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 34
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+
+
+===============================================
+异常时间：2015-11-24 17:29:37,788 线程：[105] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：'`' 附近有语法错误。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：.Net SqlClient Data Provider
+堆栈信息：   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   在 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.SqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByPage(Int32 skip, Int32 take, String returnFields, Object par, String where, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\peopleDAL.cs:行号 146
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 34
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+
+
+===============================================
+异常时间：2015-11-24 17:29:41,754 线程：[118] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：'`' 附近有语法错误。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：.Net SqlClient Data Provider
+堆栈信息：   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   在 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.SqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByPage(Int32 skip, Int32 take, String returnFields, Object par, String where, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\peopleDAL.cs:行号 146
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 34
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+
+
+===============================================
+异常时间：2015-11-24 17:31:03,382 线程：[115] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：'`' 附近有语法错误。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：.Net SqlClient Data Provider
+堆栈信息：   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   在 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.SqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByPage(Int32 skip, Int32 take, String returnFields, Object par, String where, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\peopleDAL.cs:行号 146
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 34
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+
+
+===============================================
+异常时间：2015-11-24 17:31:59,410 线程：[103] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：'`' 附近有语法错误。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：.Net SqlClient Data Provider
+堆栈信息：   在 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   在 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   在 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   在 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   在 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   在 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, SqlDataReader ds)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean asyncWrite)
+   在 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   在 System.Data.SqlClient.SqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.SqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByPage(Int32 skip, Int32 take, String returnFields, Object par, String where, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\peopleDAL.cs:行号 146
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 34
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void OnError(System.Data.SqlClient.SqlException, Boolean, System.Action`1[System.Action])
+
+
+===============================================
+异常时间：2015-11-24 17:37:10,950 线程：[103] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE 1 = 0)' at line 1
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：MySql.Data
+堆栈信息：   在 MySql.Data.MySqlClient.MySqlStream.ReadPacket()
+   在 MySql.Data.MySqlClient.NativeDriver.GetResult(Int32& affectedRow, Int64& insertedId)
+   在 MySql.Data.MySqlClient.Driver.GetResult(Int32 statementId, Int32& affectedRows, Int64& insertedId)
+   在 MySql.Data.MySqlClient.Driver.NextResult(Int32 statementId, Boolean force)
+   在 MySql.Data.MySqlClient.MySqlDataReader.NextResult()
+   在 MySql.Data.MySqlClient.MySqlCommand.ExecuteReader(CommandBehavior behavior)
+   在 MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior)
+   在 System.Data.Common.DbCommand.System.Data.IDbCommand.ExecuteReader(CommandBehavior behavior)
+   在 Dapper.SqlMapper.<QueryImpl>d__11`1.MoveNext() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1589
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1479
+   在 Utils.MySqlDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\MySqlDapperHelper.cs:行号 71
+   在 TestDapper2.peopleDAL.QueryByIds(List`1 ids, String returnFields, String orderBy) 位置 e:\vs2012项目\TestDapper2\TestDapper2\DAL\peopleDAL.cs:行号 125
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 36
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：MySql.Data.MySqlClient.MySqlPacket ReadPacket()
+
+
+===============================================

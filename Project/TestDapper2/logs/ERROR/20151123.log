@@ -1,0 +1,269 @@
+异常时间：2015-11-23 17:23:08,831 线程：[6] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：无法加载 DLL“SQLite.Interop.dll”: 找不到指定的模块。 (异常来自 HRESULT:0x8007007E)。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.UnsafeNativeMethods.sqlite3_config_none(SQLiteConfigOpsEnum op)
+   在 System.Data.SQLite.SQLite3.StaticIsInitialized()
+   在 System.Data.SQLite.SQLiteLog.Initialize()
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString, Boolean parseViaFramework)
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString)
+   在 Utils.SQLiteDapperHelper.CreateConnection() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 13
+   在 Utils.SQLiteDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 69
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 26
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteErrorCode sqlite3_config_none(System.Data.SQLite.SQLiteConfigOpsEnum)
+
+
+===============================================
+异常时间：2015-11-23 17:26:49,884 线程：[9] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：无法加载 DLL“SQLite.Interop.dll”: 找不到指定的模块。 (异常来自 HRESULT:0x8007007E)。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.UnsafeNativeMethods.sqlite3_config_none(SQLiteConfigOpsEnum op)
+   在 System.Data.SQLite.SQLite3.StaticIsInitialized()
+   在 System.Data.SQLite.SQLiteLog.Initialize()
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString, Boolean parseViaFramework)
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString)
+   在 Utils.SQLiteDapperHelper.CreateConnection() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 13
+   在 Utils.SQLiteDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 69
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 26
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteErrorCode sqlite3_config_none(System.Data.SQLite.SQLiteConfigOpsEnum)
+
+
+===============================================
+异常时间：2015-11-23 17:31:57,839 线程：[15] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：无法加载 DLL“SQLite.Interop.dll”: 找不到指定的模块。 (异常来自 HRESULT:0x8007007E)。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.UnsafeNativeMethods.sqlite3_config_none(SQLiteConfigOpsEnum op)
+   在 System.Data.SQLite.SQLite3.StaticIsInitialized()
+   在 System.Data.SQLite.SQLiteLog.Initialize()
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString, Boolean parseViaFramework)
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString)
+   在 Utils.SQLiteDapperHelper.CreateConnection() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 13
+   在 Utils.SQLiteDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 69
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 26
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteErrorCode sqlite3_config_none(System.Data.SQLite.SQLiteConfigOpsEnum)
+
+
+===============================================
+异常时间：2015-11-23 17:37:46,686 线程：[20] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：无法加载 DLL“SQLite.Interop.dll”: 找不到指定的模块。 (异常来自 HRESULT:0x8007007E)。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.UnsafeNativeMethods.sqlite3_config_none(SQLiteConfigOpsEnum op)
+   在 System.Data.SQLite.SQLite3.StaticIsInitialized()
+   在 System.Data.SQLite.SQLiteLog.Initialize()
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString, Boolean parseViaFramework)
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString)
+   在 Utils.SQLiteDapperHelper.CreateConnection() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 13
+   在 Utils.SQLiteDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 69
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 26
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteErrorCode sqlite3_config_none(System.Data.SQLite.SQLiteConfigOpsEnum)
+
+
+===============================================
+异常时间：2015-11-23 17:38:45,324 线程：[22] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：无法在 DLL“SQLite.Interop.dll”中找到名为“sqlite3_config”的入口点。
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.UnsafeNativeMethods.sqlite3_config_none(SQLiteConfigOpsEnum op)
+   在 System.Data.SQLite.SQLite3.StaticIsInitialized()
+   在 System.Data.SQLite.SQLiteLog.Initialize()
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString, Boolean parseViaFramework)
+   在 System.Data.SQLite.SQLiteConnection..ctor(String connectionString)
+   在 Utils.SQLiteDapperHelper.CreateConnection() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 13
+   在 Utils.SQLiteDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 69
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 26
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteErrorCode sqlite3_config_none(System.Data.SQLite.SQLiteConfigOpsEnum)
+
+
+===============================================
+异常时间：2015-11-23 17:47:56,452 线程：[23] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：Data Source cannot be empty.  Use :memory: to open an in-memory database
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.SQLiteConnection.Open()
+   在 Utils.SQLiteDapperHelper.CreateConnection() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 14
+   在 Utils.SQLiteDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 69
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 26
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void Open()
+
+
+===============================================
+异常时间：2015-11-23 17:49:11,971 线程：[23] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：Data Source cannot be empty.  Use :memory: to open an in-memory database
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button1:Querydynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.SQLiteConnection.Open()
+   在 Utils.SQLiteDapperHelper.CreateConnection() 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 14
+   在 Utils.SQLiteDapperHelper.Query[T](String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 69
+   在 TestDapper2.WebForm1.Button1_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 26
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：Void Open()
+
+
+===============================================
+异常时间：2015-11-23 17:56:32,101 线程：[25] ERROR TestDapper2.LogHelper [(null)] 
+错误消息：constraint failed
+UNIQUE constraint failed: People.id
+异常页面：/WebForm1.aspx
+请求方式：POST
+
+GET参数：0个
+
+POST参数：4个
+__VIEWSTATE:/wEPDwUKLTcxOTc3NDU3NGRkGwYK1VZJHR+6SBFlLSEb6oRJPn2iKTBPWr3GlZxBeuk=
+__VIEWSTATEGENERATOR:C687F31A
+__EVENTVALIDATION:/wEdAAPJbTve8S+so1S3W3pfyWAuzfg78Z8BXhXifTCAVkevdz9YyyR4qjX0bKJ2X6bXV1PC1YqnA+Eu0qfJVJkCDd636TDZopv6htBgxTPm7vMglg==
+Button2:AccessQueryDynamic
+
+上传文件：0个
+
+源错误：System.Data.SQLite
+堆栈信息：   在 System.Data.SQLite.SQLite3.Reset(SQLiteStatement stmt)
+   在 System.Data.SQLite.SQLite3.Step(SQLiteStatement stmt)
+   在 System.Data.SQLite.SQLiteDataReader.NextResult()
+   在 System.Data.SQLite.SQLiteDataReader..ctor(SQLiteCommand cmd, CommandBehavior behave)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteReader(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteNonQuery(CommandBehavior behavior)
+   在 System.Data.SQLite.SQLiteCommand.ExecuteNonQuery()
+   在 Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 3401
+   在 Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1346
+   在 Dapper.SqlMapper.Execute(IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\SqlMapper.cs:行号 1221
+   在 Utils.SQLiteDapperHelper.Execute(String sql, Object parms) 位置 e:\vs2012项目\TestDapper2\Utils\SQL\Helper\SQLiteDapperHelper.cs:行号 29
+   在 TestDapper2.WebForm1.Button2_Click(Object sender, EventArgs e) 位置 e:\vs2012项目\TestDapper2\TestDapper2\WebForm1.aspx.cs:行号 35
+   在 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   在 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.WebControls.Button.System.Web.UI.IPostBackEventHandler.RaisePostBackEvent(String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)
+   在 System.Web.UI.Page.RaisePostBackEvent(NameValueCollection postData)
+   在 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+堆栈跟踪：System.Data.SQLite.SQLiteErrorCode Reset(System.Data.SQLite.SQLiteStatement)
+
+
+===============================================

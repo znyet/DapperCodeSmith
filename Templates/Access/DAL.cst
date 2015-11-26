@@ -83,7 +83,7 @@ namespace <%=NameSpace %>
             return <%=SqlDapperHelper%>.Execute(sql);
         }
         
-        public IEnumerable<<%=entity%>> QueryAll(string returnFields = null, int top = -1, string orderBy = null)
+        public IEnumerable<T> QueryAll<T>(string returnFields = null, int top = -1, string orderBy = null)
         {
             if (returnFields == null)
             {
@@ -99,7 +99,7 @@ namespace <%=NameSpace %>
                 topN = " TOP " + top + " "; 
             }
             string sql = "SELECT " + topN + returnFields + " FROM [<%=Table.Name%>]" + orderBy;
-            return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql);
+            return <%=SqlDapperHelper%>.Query<T>(sql);
         }
         
         <%if(Table.HasPrimaryKey) {%>
@@ -111,6 +111,7 @@ namespace <%=NameSpace %>
         
         public int DeleteByIds(List<<%=GetPKType(Table)%>> ids)
         {
+            if (ids.Count == 0) return 0;
             string sql = "DELETE FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids";
             return <%=SqlDapperHelper%>.Execute(sql, new { ids = ids });
         }
@@ -132,18 +133,19 @@ namespace <%=NameSpace %>
             return <%=SqlDapperHelper%>.Execute(sql, obj);
         }
         
-        public <%=entity%> QueryById(<%=GetPKType(Table)%> <%=GetPKName(Table)%>, string returnFields = null)
+        public T QueryById<T>(<%=GetPKType(Table)%> <%=GetPKName(Table)%>, string returnFields = null)
         {
             if (returnFields == null)
             {
                 returnFields = "<%=GetFields(Table, true)%>";
             }
             string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] = @<%=GetPKName(Table)%>";
-            return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> }).FirstOrDefault();
+            return <%=SqlDapperHelper%>.Query<T>(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> }).FirstOrDefault();
         }
         
-        public IEnumerable<<%=entity%>> QueryByIds(List<<%=GetPKType(Table)%>> ids, string returnFields = null, string orderBy = null)
+        public IEnumerable<T> QueryByIds<T>(List<<%=GetPKType(Table)%>> ids, string returnFields = null, string orderBy = null)
         {
+            if (ids.Count == 0) return new List<T>();
             if (returnFields == null)
             {
                 returnFields = "<%=GetFields(Table, true)%>";
@@ -153,9 +155,67 @@ namespace <%=NameSpace %>
                 orderBy = " ORDER BY " + orderBy;
             }
             string sql = "SELECT " + returnFields + " FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids" + orderBy;
-            return <%=SqlDapperHelper%>.Query<<%=entity%>>(sql, new { ids = ids });
+            return <%=SqlDapperHelper%>.Query<T>(sql, new { ids = ids });
         }
         <%}%>
+                
+        <%if(HasIdentity(Table) && Table.HasPrimaryKey) {%>
+        public void QueryByPage<T>(PageInfo<T> pageinfo)
+        {
+            if (pageinfo.Where != null)
+            {
+                pageinfo.Where = "WHERE " + pageinfo.Where;
+            }
+
+            string sqlTotal = string.Format("SELECT COUNT(1) FROM [<%=Table.Name%>] {0}", pageinfo.Where);
+
+            pageinfo.Total = <%=SqlDapperHelper%>.ExecuteScalar<long>(sqlTotal, pageinfo.Params);
+
+            if (pageinfo.Total == 0)
+            {
+                pageinfo.Data = new List<T>();
+            }
+            else
+            {
+                if (pageinfo.ReturnFields == null)
+                {
+                    pageinfo.ReturnFields = "<%=GetFields(Table, true)%>";
+                }
+
+                if (pageinfo.OrderBy == null)
+                {
+                    pageinfo.OrderBy = "ORDER BY [<%=GetPKName(Table)%>] DESC";
+                }
+                else
+                {
+                    pageinfo.OrderBy = "ORDER BY " + pageinfo.OrderBy;
+                }
+
+                if (pageinfo.Skip == 0)
+                {
+                    string sql = string.Format("SELECT TOP {0} {1} FROM [<%=Table.Name%>] {2} {3}", pageinfo.Take, pageinfo.ReturnFields, pageinfo.Where, pageinfo.OrderBy);
+                    pageinfo.Data = <%=SqlDapperHelper%>.Query<T>(sql, pageinfo.Params);
+                }
+                else
+                {
+                    string sqlIds = string.Format("SELECT [<%=GetPKName(Table)%>] FROM [<%=Table.Name%>] {0} {1}", pageinfo.Where, pageinfo.OrderBy);
+                    IEnumerable<int> ids = <%=SqlDapperHelper%>.Query<int>(sqlIds, pageinfo.Params);
+                    IEnumerable<int> idsSkip = ids.Skip(pageinfo.Skip).Take(pageinfo.Take);
+
+                    if (idsSkip.Count() != 0)
+                    {
+                        string sql = string.Format("SELECT {0} FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids", pageinfo.ReturnFields);
+                        pageinfo.Data = <%=SqlDapperHelper%>.Query<T>(sql, new { ids = idsSkip });
+                    }
+                    else
+                    {
+                        pageinfo.Data = new List<T>();
+                    }
+                }
+            }
+        }
+        <%}%>
+        
         
         
     }

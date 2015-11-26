@@ -73,6 +73,7 @@
     <Compile Include="SQL\ConnectionString.cs" />
     <Compile Include="SQL\Helper\SqlDapperHelper.cs" />
     <Compile Include="SQL\Helper\SQLiteDapperHelper.cs" />
+    <Compile Include="SQL\PageInfo.cs" />
     <Compile Include="SQL\SqlMapper.cs" />
     <Compile Include="StringHelper.cs" />
   </ItemGroup>
