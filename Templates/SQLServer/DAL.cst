@@ -154,7 +154,7 @@ namespace <%=NameSpace %>
         <%} %>
         
         //PageInfo参数必须是dynamic par = new ExpandoObject();
-        public void QueryByPage<T>(PageInfo<T> pageinfo)
+        public void QueryByPage<T>(PageInfo<T> pageinfo, bool getTotal = true)
         {
             if (pageinfo.ReturnFields == null)
             {
@@ -177,23 +177,28 @@ namespace <%=NameSpace %>
                 <%} %>
             }
 
-            string sqlData = null;
+            string sql = null;
             if (pageinfo.Skip == 0)
             {
-                sqlData = string.Format("SELECT TOP {0} {1} FROM [<%=Table.Name%>] {2} {3}", pageinfo.Take, pageinfo.ReturnFields, pageinfo.Where, pageinfo.OrderBy);
+                sql = string.Format("SELECT TOP {0} {1} FROM [<%=Table.Name%>](NOLOCK) {2} {3};", pageinfo.Take, pageinfo.ReturnFields, pageinfo.Where, pageinfo.OrderBy);
             }
             else
             {
-                sqlData = string.Format("SELECT TOP {3} {0} FROM (SELECT ROW_NUMBER() OVER({1}) AS Num,{0} FROM [<%=Table.Name%>] {2}) AS [T] WHERE [T].[Num]>@skip", pageinfo.ReturnFields, pageinfo.OrderBy, pageinfo.Where, pageinfo.Take);
+                sql = string.Format("WITH cte AS (SELECT ROW_NUMBER() OVER({0}) AS NUM,{1} FROM [<%=Table.Name%>](NOLOCK) {2}) SELECT {1} FROM [cte] WHERE [NUM] BETWEEN {3} AND {4}", pageinfo.OrderBy, pageinfo.ReturnFields, pageinfo.Where, pageinfo.Skip + 1, pageinfo.Skip + pageinfo.Take);
             }
-            string sql = string.Format(@"
+
+            if (getTotal)
+            {
+                sql = string.Format(@"
 DECLARE @total BIGINT
-SET @total=(SELECT COUNT(1) FROM [<%=Table.Name%>] {0})
+SET @total=(SELECT COUNT(1) FROM [<%=Table.Name%>](NOLOCK) {0})
 SELECT @total
 IF(@total!=0 AND @total>@skip)
 	BEGIN
 	  {1}
-	END", pageinfo.Where, sqlData);
+	END", pageinfo.Where, sql);
+
+            }
 
             using (var conn = <%=SqlDapperHelper%>.CreateConnection())
             {
@@ -209,15 +214,24 @@ IF(@total!=0 AND @total>@skip)
                     Reader = conn.QueryMultiple(sql, (object)pageinfo.Params);
                 }
 
-                pageinfo.Total = Reader.Read<long>().FirstOrDefault();
-                if (pageinfo.Total != 0 && pageinfo.Total > pageinfo.Skip)
+                if (getTotal)
                 {
-                    pageinfo.Data = Reader.Read<T>();
+
+                    pageinfo.Total = Reader.Read<long>().FirstOrDefault();
+                    if (pageinfo.Total != 0 && pageinfo.Total > pageinfo.Skip)
+                    {
+                        pageinfo.Data = Reader.Read<T>();
+                    }
+                    else
+                    {
+                        pageinfo.Data = new List<T>();
+                    }
                 }
                 else
                 {
-                    pageinfo.Data = new List<T>();
+                    pageinfo.Data = Reader.Read<T>();
                 }
+
                 Reader.Dispose();
             }
 

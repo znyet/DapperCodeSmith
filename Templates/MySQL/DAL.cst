@@ -154,7 +154,7 @@ namespace <%=NameSpace %>
         <%} %>
         
         //PageInfo参数必须是dynamic par = new ExpandoObject();
-        public void QueryByPage<T>(PageInfo<T> pageinfo)
+        public void QueryByPage<T>(PageInfo<T> pageinfo, bool getTotal = true)
         {
             if (pageinfo.ReturnFields == null)
             {
@@ -174,7 +174,16 @@ namespace <%=NameSpace %>
                 pageinfo.OrderBy = "ORDER BY `<%=GetPKName(Table)%>` DESC"; 
             }
             <%} %>
-            string sql = string.Format("SELECT count(1) FROM `<%=Table.Name%>` {0};SELECT {2} FROM `<%=Table.Name%>` {0} {1} LIMIT @skip,@take", pageinfo.Where, pageinfo.OrderBy, pageinfo.ReturnFields);
+            
+            string sql = null;
+            if (getTotal)
+            {
+                sql = string.Format("SELECT count(1) FROM `<%=Table.Name%>` {0};SELECT {2} FROM `<%=Table.Name%>` {0} {1} LIMIT @skip,@take", pageinfo.Where, pageinfo.OrderBy, pageinfo.ReturnFields);
+            }
+            else
+            {
+                sql = string.Format("SELECT {0} FROM `<%=Table.Name%>` {1} {2} LIMIT @skip,@take", pageinfo.ReturnFields, pageinfo.Where, pageinfo.OrderBy);
+            }
 
             using (var conn = <%=SqlDapperHelper%>.CreateConnection())
             {
@@ -191,8 +200,16 @@ namespace <%=NameSpace %>
                     Reader = conn.QueryMultiple(sql, (object)pageinfo.Params);
                 }
 
-                pageinfo.Total = Reader.Read<long>().FirstOrDefault();
-                pageinfo.Data = Reader.Read<T>();
+                if (getTotal)
+                {
+                    pageinfo.Total = Reader.Read<long>().FirstOrDefault();
+                    pageinfo.Data = Reader.Read<T>();
+                }
+                else
+                {
+                    pageinfo.Data = Reader.Read<T>();
+                }
+                
                 Reader.Dispose();
             }
 
