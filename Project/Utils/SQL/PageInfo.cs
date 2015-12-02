@@ -4,9 +4,17 @@ namespace Utils
 {
     public class PageInfo<T>
     {
-        public PageInfo(int PageSize = 10)
+
+        public PageInfo()
+        {
+
+        }
+
+        public PageInfo(int PageIndex, int PageSize)
         {
             this.Take = PageSize;
+            this.PageIndex = PageIndex;
+            this.Skip = (PageIndex - 1) * this.Take;
         }
 
         /// <summary>
@@ -18,6 +26,11 @@ namespace Utils
         /// 选择几条记录，也就是页码
         /// </summary>
         public int Take { get; set; }
+
+        /// <summary>
+        /// 页码，当前第几页
+        /// </summary>
+        public int PageIndex { get; set; }
 
         /// <summary>
         /// 返回字段，用逗号隔开
@@ -49,7 +62,7 @@ namespace Utils
         /// </summary>
         public IEnumerable<T> Data;
 
-        public void LoadPage(string page = "page", string pageSize = "pageSize")
+        public void LoadPage(string pageIndex = "pageIndex", string pageSize = "pageSize")
         {
 
             int PageSize = HttpHelper.Request<int>(pageSize);
@@ -58,13 +71,12 @@ namespace Utils
                 this.Take = PageSize;
             }
 
-            int Page = HttpHelper.Request<int>(page);
+            int Page = HttpHelper.Request<int>(pageIndex);
             if (Page > 0)
             {
+                this.PageIndex = Page;
                 this.Skip = (Page - 1) * this.Take;
             }
-
-
         }
 
     }
