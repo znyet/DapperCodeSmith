@@ -103,6 +103,7 @@ namespace Utils
                 catch
                 {
                     transaction.Rollback();
+                    transaction.Dispose();
                     result = false;
                 }
                 return result;

@@ -74,5 +74,30 @@ namespace Utils
         }
 
         #endregion
+
+        #region 执行事务
+
+        public static bool ExecuteTransaction(string sql, object parms = null)
+        {
+            using (IDbConnection conn = CreateConnection())
+            {
+                bool result = true;
+                IDbTransaction transaction = conn.BeginTransaction();
+                try
+                {
+                    conn.Execute(sql, parms, transaction: transaction);
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    transaction.Dispose();
+                    result = false;
+                }
+                return result;
+            }
+        }
+
+        #endregion
     }
 }
