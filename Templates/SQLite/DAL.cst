@@ -99,11 +99,11 @@ namespace <%=NameSpace %>
             return <%=SqlDapperHelper%>.Execute(sql, new { <%=GetPKName(Table)%> = <%=GetPKName(Table)%> });
         }
         
-        public int DeleteByIds(List<<%=GetPKType(Table)%>> ids)
+        public bool DeleteByIds(List<<%=GetPKType(Table)%>> ids)
         {
-            if (ids.Count == 0) return 0;
+            if (ids.Count == 0) return false;
             string sql = "DELETE FROM [<%=Table.Name%>] WHERE [<%=GetPKName(Table)%>] IN @ids";
-            return <%=SqlDapperHelper%>.Execute(sql, new { ids = ids });
+            return <%=SqlDapperHelper%>.ExecuteTransaction(sql, new { ids = ids });
         }
         <%} %>
         
