@@ -8,7 +8,7 @@ namespace Utils
 {
     public class ConvertHelper
     {
-        public static T Get<T>(object value)
+        public static T ConvertTo<T>(object value)
         {
             return (T)HackType(value, typeof(T));
         }
