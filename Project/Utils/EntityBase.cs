@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Web;
 using blqw;
 
@@ -6,82 +7,28 @@ namespace Utils
 {
     public class EntityBase
     {
-        public void LoadQueryString()
-        {
-            var forms = HttpContext.Current.Request.QueryString;
-            if (forms.Count != 0)
-            {
-                var ti = TypesHelper.GetTypeInfo(this.GetType()); //缓存中获取
-                var li = ti.IgnoreCaseLiteracy;
 
-                foreach (var key in forms.AllKeys)
-                {
-                    var item = key.ToLower();
-                    if (li.Property.Names.Contains(item))
-                    {
-                        string value = forms[item];
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            li.Property[item].SetValue(this, value);
-                        }
-                        else
-                        {
-                            if (li.Property[item].GetType() == typeof(string))
-                            {
-                                li.Property[item].SetValue(this, "");
-                            }
-                        }
-                    }
-                }
+        public void LoadData(int method = 0)
+        {
+            NameValueCollection nvc = null;
+            switch (method)
+            {
+                case 0: nvc = HttpContext.Current.Request.Params; break;
+                case 1: nvc = HttpContext.Current.Request.Form; break;
+                case 2: nvc = HttpContext.Current.Request.QueryString; break;
             }
-        }
 
-        public void LoadForm()
-        {
-            var forms = HttpContext.Current.Request.Form;
-            if (forms.Count != 0)
-            {
-
-                var ti = TypesHelper.GetTypeInfo(this.GetType()); //缓存中获取
-                var li = ti.IgnoreCaseLiteracy;
-
-                foreach (var key in forms.AllKeys)
-                {
-                    var item = key.ToLower();
-                    if (li.Property.Names.Contains(item))
-                    {
-                        string value = forms[item];
-                        if (!string.IsNullOrEmpty(value))
-                        {
-                            li.Property[item].SetValue(this, value);
-                        }
-                        else
-                        {
-                            if (li.Property[item].GetType() == typeof(string))
-                            {
-                                li.Property[item].SetValue(this, "");
-                            }
-                        }
-                    }
-
-                }
-            }
-        }
-
-        public void Load()
-        {
-            var forms = HttpContext.Current.Request.Params;
-            if (forms.Count != 0)
+            if (nvc.Count != 0)
             {
                 var ti = TypesHelper.GetTypeInfo(this.GetType()); //缓存中获取
                 var li = ti.IgnoreCaseLiteracy;
 
-                foreach (var key in forms.AllKeys)
+                foreach (var key in nvc.AllKeys)
                 {
                     var item = key.ToLower();
                     if (li.Property.Names.Contains(item))
                     {
-                        string value = forms[item];
+                        string value = nvc[item];
                         if (!string.IsNullOrEmpty(value))
                         {
                             li.Property[item].SetValue(this, value);
